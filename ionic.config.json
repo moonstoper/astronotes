@@ -1,0 +1,8 @@
+{
+  "name": "ASTRONOTES",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "ade5c946"
+}
