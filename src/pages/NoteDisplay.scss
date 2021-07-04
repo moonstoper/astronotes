@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+ion-toolbar {
+  font-family: Anton, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.container {
+  //     display: -webkit-box; /* Not needed if autoprefixing */
+  //   display: -ms-flexbox; /* Not needed if autoprefixing */
+  //   display: flex;
+  margin-left: -30px; /* gutter size offset */
+  width: auto;
+  column-count: 2;
+  // .div {
+  //   border: 1px solid;
+  //   padding: 10px;
+  // }
+}
+
+.ionTitle {
+  background-size: contain;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: none;
+  animation-name: logoanim;
+  animation-duration: 10s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+
+  @keyframes logonanim {
+    0% {
+      background-image: red;
+    }
+    100% {
+      background-image: blue;
+    }
+  }
+}

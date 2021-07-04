@@ -26,3 +26,10 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+
+# custom files
+/andriod
+/build
+fire.ts
+
+/.firebase

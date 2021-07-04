@@ -1,5 +1,6 @@
 import {
   IonContent,
+  IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
@@ -8,11 +9,16 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
+  IonTitle,
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
 import { archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 import './Menu.css';
+import { useContext } from 'react';
+import { authContext } from '../helpers/userauth';
+import { auth } from '../firebase';
+import { googleSignIn } from '../helpers/googleSign';
 
 interface AppPage {
   url: string;
@@ -63,36 +69,45 @@ const appPages: AppPage[] = [
 const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
 const Menu: React.FC = () => {
-  const location = useLocation();
+  var {user} = useContext<any>(authContext)
+  // const location = useLocation();
+  const googleSign = async() => {
+    console.log(user)
+    if (user !== null && !user?.isAnonymous) {
+      alert("user Already logged")
+    
+      return 
+    }
+
+    await googleSignIn().then((value) => {
+      alert(value)
+    }).catch(e => {
+      console.log(e)
+    })
+
+    
+  }
+  const signOut =()=>{
+      auth.signOut()
+  
+  }
 
   return (
     <IonMenu contentId="main" type="overlay">
-      <IonContent>
-        <IonList id="inbox-list">
-          <IonListHeader>Inbox</IonListHeader>
-          <IonNote>hi@ionicframework.com</IonNote>
-          {appPages.map((appPage, index) => {
-            return (
-              <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
-                </IonItem>
-              </IonMenuToggle>
-            );
-          })}
-        </IonList>
-
-        <IonList id="labels-list">
-          <IonListHeader>Labels</IonListHeader>
-          {labels.map((label, index) => (
-            <IonItem lines="none" key={index}>
-              <IonIcon slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
-      </IonContent>
+      <IonHeader mode="ios">
+        <IonTitle>LOGO</IonTitle>
+      </IonHeader>
+      <IonList>
+        {user !== null ? (
+          <IonItem style={{ cursor: "pointer" }} onClick={(e) => signOut()}>
+            Sign Out
+          </IonItem>
+        ) : (
+          <IonItem style={{ cursor: "pointer" }} onClick={(e) => googleSign()}>
+            Sign in with google
+          </IonItem>
+        )}
+      </IonList>
     </IonMenu>
   );
 };

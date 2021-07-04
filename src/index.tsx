@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import UserAuth from './helpers/userauth';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <UserAuth>
+      <App />
+      </UserAuth>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,8 +1,8 @@
 import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Menu from './components/Menu';
-import Page from './pages/Page';
+import Page from './pages/NoteDisplay';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,23 +21,21 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 /* Theme variables */
-import './theme/variables.css';
+import './theme/variables.scss';
+import NoteCreate from './pages/NoteCreate';
 
 const App: React.FC = () => {
-  return (
+  return ( /// page routes are defined here
     <IonApp>
       <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <Redirect to="/page/Inbox" />
+        <Switch>
+          <IonRouterOutlet  >
+          <Route path="/" exact={true}  >
+            <Page/>
             </Route>
-            <Route path="/page/:name" exact={true}>
-              <Page />
-            </Route>
+            <Route path="/createNote" exact component={NoteCreate} />
           </IonRouterOutlet>
-        </IonSplitPane>
+           </Switch>
       </IonReactRouter>
     </IonApp>
   );
