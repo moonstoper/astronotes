@@ -74,13 +74,13 @@ const Menu: React.FC = () => {
   const googleSign = async() => {
     console.log(user)
     if (user !== null && !user?.isAnonymous) {
-      alert("user Already logged")
+      console.log("user Already logged")
     
       return 
     }
 
     await googleSignIn().then((value) => {
-      alert(value)
+     console.log(value)
     }).catch(e => {
       console.log(e)
     })
