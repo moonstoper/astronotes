@@ -1,3 +1,22 @@
-IonList{
-    transition: all .5s ease-out;
+IonList {
+  transition: all 1s ease-out;
+  
+  IonInput {
+    padding-left: 0.5rem;
+    font-size: 1rem;
+    transition: all 1s ease-out;
+    
+  }
+}
+
+.ionTodo{
+    padding-left: 0px !important;
+    padding-inline-start: 0px !important;
+    transition: all 1s ease-out;
+}
+
+IonItem{
+    IonCheckBox{
+        margin-right: 1rem;
+    }
 }

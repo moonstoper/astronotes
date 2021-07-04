@@ -24,11 +24,17 @@ import {
   addOutline,
   trashOutline,
 } from "ionicons/icons";
-// import { addListener } from "process";
+import {
+  addList,
+  deleteTodoUnit,
+  insertTodoUnit,
+  modifytodoList,
+} from "../helpers/todoHelper";
 import { useEffect, useState } from "react";
 import { withRouter } from "react-router";
 import Notes from "../Notes";
 import "./NoteCreate.scss";
+import NoteDisplay from "./NoteDisplay";
 // const todoTemplate = <Reac'
 const NoteCreate: React.FC = () => {
   var [note, setnotes] = useState<Notes>({
@@ -53,28 +59,7 @@ const NoteCreate: React.FC = () => {
   const changeTitle = (inputvalue: any) => {
     note.title = inputvalue.value;
   };
-  const addList = () => { /// onClick of add list 
-    var noteList: Notes = note;
-    var mapLength = note.map.length;
-    var todoLength = note.todos.length;
-    note.todos[todoLength] = [
-      {
-        index: 1,
-        data: "TODO 1",
-        done: false,
-      },
-      {
-        index: 2,
-        data: "TODO 2",
-        done: false,
-      },
-    ];
 
-    note.map[mapLength] = "todo" + todoLength;
-
-    setchange(!lookchange);  /// changing lookchange to trigger effect
-    console.log("notes mOdified", noteList, note);
-  };
   const appendElement = () => {
     //// going through the note data and adding the elements accordingly
     console.log("affecting elem");
@@ -85,6 +70,7 @@ const NoteCreate: React.FC = () => {
           case "title":
             return (
               <IonInput
+                style={{ margin: ".7rem 0rem" }}
                 onIonChange={(e) => {
                   changeTitle(e.target);
                 }}
@@ -98,7 +84,7 @@ const NoteCreate: React.FC = () => {
               <IonTextarea
                 id={idE}
                 autoGrow={true}
-                placeholder="..."
+                placeholder="Your Note"
                 // autofocus={true}
                 value={note.textContent[Number(idE.replace(/[a-z]/g, ""))]}
                 onIonChange={(e) => {
@@ -111,44 +97,43 @@ const NoteCreate: React.FC = () => {
             return (
               <IonList id={idE}>
                 {note.todos[Number(idE.replace(/[a-z]/g, ""))].map(
-                  (objTodo: {
-                    done: boolean | undefined;
-                    data: string | undefined;
-                    index: number | undefined;
-                  }) => {
+                  (
+                    objTodo: {
+                      done: boolean | undefined;
+                      data: string | undefined;
+                    },
+                    index: any
+                  ) => {
                     return (
-                      <IonItem key={objTodo.index}>
+                      <IonItem key={idE + index} className="ionTodo">
                         <IonCheckbox
                           onIonChange={(e) => {
                             modifyListTodo(
                               e.target,
                               Number(idE.replace(/[a-z]/g, "")),
-                              objTodo.index,
+                              index,
                               "check"
                             );
                           }}
                           checked={objTodo.done}
                         ></IonCheckbox>
                         <IonInput
+                          // style={{textDecoration:`${objTodo.done?'line-through':'none'}`}}
                           onIonChange={(e) =>
                             modifyListTodo(
                               e.target,
                               Number(idE.replace(/[a-z]/g, "")),
-                              objTodo.index,
+                              index,
                               "data"
                             )
                           }
                           value={objTodo.data}
                         ></IonInput>
                         <IonButtons>
-                          <IonButton
-                            onClick={(e) => console.log(objTodo.index)}
-                          >
+                          <IonButton onClick={(e) => insertTodo(index, idE)}>
                             <IonIcon icon={addOutline}></IonIcon>
                           </IonButton>
-                          <IonButton
-                            onClick={(e) => console.log(objTodo.index)}
-                          >
+                          <IonButton onClick={(e) => deleteTodo(index, idE)}>
                             <IonIcon icon={trashOutline}></IonIcon>
                           </IonButton>
                         </IonButtons>
@@ -158,34 +143,77 @@ const NoteCreate: React.FC = () => {
                 )}
               </IonList>
             );
+
+          default:
+            break;
         }
       })
     );
     console.log(elem);
   };
 
+  const insertTodo = (index: number, todoID: string) => {
+    insertTodoUnit(index, todoID, note);
+    setchange(!lookchange);
+  };
+  const deleteTodo = (index: number, todoID: string) => {
+    var ID = Number(todoID.replace(/[a-z]+/g, ""));
+    var count = -1;
+    debugger;
+    if (note.todos[ID].length === 1) {
+      console.log("true condition");
+      note.todos.splice(ID, 1);
+      for (let v = 0; v < note.map.length; v++){
+        if (note.map[v].replace(/[0-9]+/g, '') === 'todo') {
+          var currentValID = Number(note.map[v].replace(/[a-z]+/g, ""));
+          if (currentValID === ID) {
+            count = v
+          }
+          if (currentValID > ID) {
+            note.map[v] = 'todo'+(currentValID-1).toString()
+          }
+        }
+      }
+      console.log(count)
+      if (count !== -1) {
+        // check text Content
+        if (
+          note.map[count + 1].replace(/[0-9]+/g, "") === "text" &&
+          note.textContent[
+            Number(note.map[count + 1].replace(/[a-z]+/g, ""))
+          ] === undefined &&
+          note.map[count - 1].replace(/[0-9]+/g, "") === "text"
+        ) {
+          note.textContent.splice(Number(note.map[count+1].replace(/[a-z]+/g,'')),1)
+          note.map.splice(count + 1, 1);
+          
+        }
+        note.map.splice(count, 1);
+      }
+    } else {
+      console.log("#else condition");
+      note.todos[ID].splice(index, 1);
+    }
+    setchange(!lookchange);
+  };
   const modifyListTodo = (
     text: any,
     todoid: number,
-    index: number | undefined,
+    index: number,
     listChangeType: string
   ) => {
-    console.log("what no change", text);
-    var notes = note;
-    notes.todos[todoid].forEach(
-      (obj: { data: string; index: number; done: boolean }) => {
-        if (obj.index === index) {
-          if (listChangeType === "data") obj.data = text.value;
-          if (listChangeType === "check") obj.done = !obj.done;
-        }
-      }
-    );
-    setnotes(notes);
+    // console.log( text,todoid,index,listChangeType);
+    modifytodoList(text, todoid, index, listChangeType, note);
   };
   useEffect(() => {
     console.log(note.map.length);
     appendElement();
   }, [lookchange]);
+
+  const addListButton = () => {
+    addList(note);
+    setchange(!lookchange);
+  };
   return (
     <IonPage>
       <IonHeader>
@@ -208,7 +236,8 @@ const NoteCreate: React.FC = () => {
       </IonContent>
       <IonFooter>
         <IonToolbar>
-          <IonButtons>
+          <IonButtons slot="start">
+            Actions:
             <IonButton
               onClick={(e) => {
                 alert("Not build right now");
@@ -216,7 +245,11 @@ const NoteCreate: React.FC = () => {
             >
               <IonIcon icon={imageOutline} color="red"></IonIcon>
             </IonButton>
-            <IonButton onClick={(e) => addList()}>
+            <IonButton
+              onClick={(e) => {
+                addListButton();
+              }}
+            >
               <IonIcon icon={checkboxOutline} color="red"></IonIcon>
             </IonButton>
           </IonButtons>

@@ -86,6 +86,23 @@ const Page: React.FC = () => {
     getuserNotes(); /// called when this page is rendered
    
   }, [user]); //called again on user change ** dependency
+
+  const textc = (note: Notes) => {
+    if (note.map[1] === undefined || note.map[1].replace(/[0-9]/g, '') === 'image') {
+      return null
+    } else {
+      var noteM = note.map[1].replace(/[0-9]/g, "");
+      switch (noteM) {
+        case 'text': return note.textContent[0]
+                
+        case 'todo': return 'Your TODOS LIST'
+            
+        default: return null
+          break;
+      }
+    }
+  }
+  
   const notecard = (note: Notes) => {
     /*
     ``card is formed here in notecard
@@ -96,7 +113,7 @@ const Page: React.FC = () => {
         <IonCardHeader>
           <IonCardTitle>{note.title}</IonCardTitle>
         </IonCardHeader>
-        <IonCardContent>{note.textContent[0]}</IonCardContent>
+        <IonCardContent></IonCardContent>
       </IonCard>
     );
   };
