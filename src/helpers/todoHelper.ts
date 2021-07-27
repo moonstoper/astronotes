@@ -4,11 +4,11 @@ export const addList = (note: Notes) => {
   var todoLength = note.todos.length;
   note.todos[todoLength] = [
     {
-      data: "TODO 1",
+      data: "Things To Do",
       done: false,
     },
     {
-      data: "TODO 2",
+      data: "Things To Do",
       done: false,
     },
   ];
@@ -32,6 +32,9 @@ export const addList = (note: Notes) => {
       note.map[mapLength] = "todo" + todoLength.toString();
       note.map[mapLength + 1] = "text" + (index + 1).toString();
     }
+  } else {
+    note.map[mapLength] = "todo" + todoLength.toString();
+    note.map[mapLength + 1] = "text" + note.textContent.length.toString();
   }
   return true;
 };
@@ -54,7 +57,7 @@ export const deleteTodoUnit = (index: number, todoID: string, note: Notes) => {
     });
 
     if (count !== -1) {
-        // check text Content
+      // check text Content
       if (
         note.map[count + 1].replace(/[0-9]+/g, "") === "text" &&
         note.textContent[Number(note.map[count + 1].replace(/[a-z]+/g, ""))] ===

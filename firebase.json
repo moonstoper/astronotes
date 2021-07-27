@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site":"dev-astronotes",
+    "site":"main-astronotes",
     "public": "build",
     "ignore": [
       "firebase.json",

@@ -4,8 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/eslint-parser": "^7.14.7",
+    "@capacitor/android": "3.1.2",
     "@capacitor/app": "1.0.2",
-    "@capacitor/core": "3.0.2",
+    "@capacitor/core": "^3.0.2",
     "@capacitor/haptics": "1.0.2",
     "@capacitor/keyboard": "1.0.2",
     "@capacitor/status-bar": "1.0.2",
@@ -20,6 +21,7 @@
     "@types/react-dom": "^16.9.13",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "browser-image-compression": "^1.0.14",
     "firebase": "^8.6.8",
     "ionicons": "^5.4.0",
     "joi": "^17.4.0",

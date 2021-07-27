@@ -5,21 +5,73 @@ ion-toolbar {
 }
 
 .container {
-  //     display: -webkit-box; /* Not needed if autoprefixing */
-  //   display: -ms-flexbox; /* Not needed if autoprefixing */
-  //   display: flex;
-  margin-left: -30px; /* gutter size offset */
+  // display: -webkit-box; /* Not needed if autoprefixing */
+  // display: -ms-flexbox; /* Not needed if autoprefixing */
+  // display: flex;
+  // /* gutter size offset */
   width: auto;
   column-count: 2;
+  // -webkit-column-break-inside: avoid;
+  // page-break-inside: avoid;
+  // break-inside: avoid;
+  margin: 20px auto;
   // .div {
   //   border: 1px solid;
   //   padding: 10px;
   // }
 }
 
-.ionTitle {
+ion-card {
+  margin-top: 0px;
+  margin-bottom: 1rem;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  overflow: hidden;
+  // box-shadow: none;
+  // border: 0.5px solid hsl(68, 5%, 29%); // padding-bottom: 2rem;
+  ion-card-header {
+    padding: 0px;
+    ion-card-title {
+      padding: 5px;
+      font-size: larger;
+      font-family: "Poppins", sans-serif;
+    }
+  }
+}
+.skecthy {
+  padding: 4rem 8rem;
+  display: inline-block;
+  border: 3px solid #333333;
+  font-size: 2.5rem;
+  border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+  text-transform: uppercase;
+  letter-spacing: 0.3ch;
+  background: #ffffff;
+  position: relative;
+
+  &::before {
+    content: "";
+    border: 2px solid #353535;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
+    border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
+  }
+}
+.ion-toolbarTitle {
   background-size: contain;
   background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+  background-image: -webkit-linear-gradient(
     43deg,
     #4158d0 0%,
     #c850c0 46%,
@@ -28,18 +80,65 @@ ion-toolbar {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: none;
-  animation-name: logoanim;
-  animation-duration: 10s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-
-  @keyframes logonanim {
+}
+.ionTitle {
+  font-family: Anton, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 10vmin;
+  background-size: contain;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+  background-image: -webkit-linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: none;
+  animation: logon5s ease-out infinite alternate;
+  -webkit-animation: logon 5s ease-out infinite alternate;
+  @keyframes logon {
     0% {
-      background-image: red;
+      background-position: 0px 0px;
+    }
+    50% {
+      background-position: 50vmin 50vmin;
     }
     100% {
-      background-image: blue;
+      background-position: 30vmin 30vmin;
     }
   }
+}
+
+ion-slide {
+  height: 100%;
+}
+
+ion-card-title {
+  padding: 1rem 10px !important;
+}
+ion-text,
+ion-card-title {
+  padding: 1rem 10px !important;
+  // color: whitesmoke;
+}
+
+.checkbox-disabled {
+  opacity: 1;
+}
+
+.displayList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: space-around;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.1rem 10px !important;
 }

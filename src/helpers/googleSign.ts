@@ -5,7 +5,7 @@ export const googleSignIn = async() => {
     await auth.signInWithPopup(googleprovider).then((user) => {
         console.log(user)
         //check for database if created
-    }).catch(e => {
+    }).catch((e:any) => {
         console.log(e)
         throw new Error("Failed to sign in")
     })
